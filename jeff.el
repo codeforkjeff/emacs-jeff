@@ -556,7 +556,7 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
            ;; pc laptop
            ((= 1366 display-width) 
             (progn
-              (set-frame-height frame 37)
+              (set-frame-height frame 35)
               (set-frame-width frame 90)))
            ;; macbook
            ((and (equal system-type 'darwin) (= 1280 display-width)) 
