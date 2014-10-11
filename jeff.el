@@ -16,14 +16,8 @@
 
 ;; melpa is supposedly the latest and greatest; don't use gnu or elpa
 (require 'package)
-(add-to-list 'package-archives 
-             '("melpa" . "http://melpa.milkbox.net/packages/"))
-
-(when (>= emacs-major-version 24)
-  (setq package-archives
-        '(("gnu" . "http://elpa.gnu.org/packages/")
-          ("marmalade" . "http://marmalade-repo.org/packages/")
-          ("melpa" . "http://melpa.milkbox.net/packages/"))))
+(setq package-archives
+      '(("melpa" . "http://melpa.milkbox.net/packages/")))
 
 (package-initialize)
 
@@ -45,8 +39,7 @@
   :group 'jc)
 
 (defcustom jc-package-dependencies 
-  '(ack
-    cl-lib
+  '(cl-lib
     yasnippet 
     rnc-mode
     expand-region
@@ -334,21 +327,18 @@
          (ip_substring (when ssh_connection (substring ssh_connection 0 7))))
     (equal "10.20.1" ip_substring)))
 
-
-(require 'ack)
-(autoload 'pcomplete/ack "pcmpl-ack")
-(autoload 'pcomplete/ack-grep "pcmpl-ack")
-
-(defun jc-ack-default-directory (arg)
-  "Always prompt for directory"
-  (let* ((dir (read-directory-name "In directory: " default-directory nil t))
-        (dir-with-slash (if (equal (substring dir -1) "/")
-                            dir
-                          (concat dir "/"))))
-    (message (concat "DIR: " dir-with-slash))
-    dir-with-slash))
-
-(setq ack-default-directory-function 'jc-ack-default-directory)
+;; (require 'ack)
+;; (autoload 'pcomplete/ack "pcmpl-ack")
+;; (autoload 'pcomplete/ack-grep "pcmpl-ack")
+;; (defun jc-ack-default-directory (arg)
+;;   "Always prompt for directory"
+;;   (let* ((dir (read-directory-name "In directory: " default-directory nil t))
+;;         (dir-with-slash (if (equal (substring dir -1) "/")
+;;                             dir
+;;                           (concat dir "/"))))
+;;     (message (concat "DIR: " dir-with-slash))
+;;     dir-with-slash))
+;; (setq ack-default-directory-function 'jc-ack-default-directory)
 
 (defun x-server-is-connected ()
   "Returns t if emacs is connected to an X display"
