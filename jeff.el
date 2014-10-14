@@ -46,7 +46,8 @@
     auto-complete
     color-theme
     tt-mode
-    psvn)
+    psvn
+    markdown-mode)
   "package dependencies required by jeff.el"
   :type '(repeat symbol)
   :group 'jc)
