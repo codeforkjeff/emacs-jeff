@@ -15,7 +15,7 @@
 (require 'cl)
 
 (if (<= emacs-major-version 23)
-    (add-to-list 'load-path (concat (file-name-directory load-file-name) "/emacs23")))
+    (add-to-list 'load-path (concat (file-name-directory load-file-name) "emacs23")))
 ;; melpa is supposedly the latest and greatest; don't use gnu or elpa
 (require 'package)
 (setq package-archives
@@ -589,6 +589,7 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
     ;; TODO: if TERM isn't 256 color, show warning.but we can't use
     ;; getenv on TERM because emacs always returns 'dumb'. ugh.
 
+    (require 'ansi-color)
     (load-library "color-theme-tango")
     (color-theme-tango))
 
