@@ -14,6 +14,8 @@
 ;; cl even though it's part of stock emacs23; this might help?
 (require 'cl)
 
+(if (<= emacs-major-version 23)
+    (add-to-list 'load-path (concat (file-name-directory load-file-name) "/emacs23")))
 ;; melpa is supposedly the latest and greatest; don't use gnu or elpa
 (require 'package)
 (setq package-archives
