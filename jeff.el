@@ -49,7 +49,9 @@
     color-theme
     tt-mode
     psvn
-    markdown-mode)
+    markdown-mode
+    bash-completion
+    )
   "package dependencies required by jeff.el"
   :type '(repeat symbol)
   :group 'jc)
@@ -602,3 +604,13 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
     (add-hook 'after-make-frame-functions 'jc-after-make-frame)
   ;; else
   (jc-after-make-frame (selected-frame)))
+
+
+;; for bash completion in shell mode
+(autoload 'bash-completion-dynamic-complete 
+  "bash-completion"
+  "BASH completion hook")
+(add-hook 'shell-dynamic-complete-functions
+  'bash-completion-dynamic-complete)
+(add-hook 'shell-command-complete-functions
+  'bash-completion-dynamic-complete)
