@@ -35,6 +35,11 @@
          nil)))
    packages))
 
+(defcustom jc-use-per-hostname-session-files t
+  "Keep per-hostname files for modules that keep state (desktop, recentf, etc). Set to nil on machines whose hostnames change frequently."
+  :type 'boolean
+  :group 'jc)
+
 (defcustom jc-skip-install-package-dependencies nil
   "Install package dependencies required by jeff.el when loading that library"
   :type 'boolean
@@ -235,7 +240,8 @@
 ;; extras for dired mode
 (require 'dired-x)
 
-(setq ido-save-directory-list-file (concat "~/.emacs.d/.ido.last." system-name))
+(when jc-use-per-hostname-session-files
+  (setq ido-save-directory-list-file (concat "~/.emacs.d/.ido.last." system-name)))
 
 ;; tab completion for find-file and buffers
 (ido-mode t)
@@ -301,7 +307,8 @@
 (require 'psvn)
 
 (require 'recentf)
-(setq recentf-save-file (concat "~/.emacs.d/.recentf." system-name))
+(when jc-use-per-hostname-session-files
+  (setq recentf-save-file (concat "~/.emacs.d/.recentf." system-name)))
 (recentf-mode t)
 (global-set-key "\C-x\C-r" 'recentf-open-files)
 
@@ -384,9 +391,12 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
 ;; save emacs buffers state
 (when (null (getenv "EMACS_DISABLE_DESKTOP_SAVE_MODE"))
   (setq desktop-path (list "~/.emacs.d"))
-  ;; use diff desktop files per host
-  (setq desktop-base-file-name (concat ".emacs.desktop." system-name))
-  (setq desktop-base-lock-name (concat ".emacs.desktop.lock." system-name))
+
+  (when jc-use-per-hostname-session-files
+    ;; use diff desktop files per host
+    (setq desktop-base-file-name (concat ".emacs.desktop." system-name))
+    (setq desktop-base-lock-name (concat ".emacs.desktop.lock." system-name)))
+  
   (desktop-save-mode 1)
 
   (defun jc-autosave-desktop ()
