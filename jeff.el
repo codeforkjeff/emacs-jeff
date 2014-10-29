@@ -70,6 +70,11 @@
 ;; Option key
 (setq mac-command-modifier 'meta)
 
+;; use a login shell on Mac OS to get full environment
+(when (equal system-type 'darwin)
+  (setq explicit-shell-file-name "/bin/bash")
+  (setq explicit-bash-args '("--login")))
+
 ;; for emacs running in Debian VM in Mac OS
 (setq x-super-keysym 'meta)
 
