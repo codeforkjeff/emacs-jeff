@@ -190,6 +190,10 @@
 
 ;;;; Require and configure packages
 
+(add-hook 'html-mode-hook
+          (lambda ()
+            (set (make-local-variable 'sgml-basic-offset) 4)))
+
 (defun my-nxml-setup ()
   (setq tab-width 4
         indent-tabs-mode nil
