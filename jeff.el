@@ -633,3 +633,7 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
   'bash-completion-dynamic-complete)
 (add-hook 'shell-command-complete-functions
   'bash-completion-dynamic-complete)
+
+(setq enable-local-variables :all)
+
+(setq ruby-deep-indent-paren nil)
