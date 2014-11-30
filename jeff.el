@@ -56,6 +56,7 @@
     psvn
     markdown-mode
     bash-completion
+    restclient
     )
   "package dependencies required by jeff.el"
   :type '(repeat symbol)
@@ -263,6 +264,10 @@
               (setq show-trailing-whitespace t)))
 
 (add-hook 'perl-mode-hook
+          (lambda ()
+              (setq show-trailing-whitespace t)))
+
+(add-hook 'ruby-mode-hook
           (lambda ()
               (setq show-trailing-whitespace t)))
 
