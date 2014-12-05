@@ -57,6 +57,7 @@
     markdown-mode
     bash-completion
     restclient
+    yaml-mode
     )
   "package dependencies required by jeff.el"
   :type '(repeat symbol)
