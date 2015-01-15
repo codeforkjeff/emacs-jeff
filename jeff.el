@@ -16,10 +16,11 @@
 
 (if (<= emacs-major-version 23)
     (add-to-list 'load-path (concat (file-name-directory load-file-name) "emacs23")))
-;; melpa is supposedly the latest and greatest; don't use gnu or elpa
+;; melpa is supposedly the latest and greatest; flycheck needs let-alist from elpa
 (require 'package)
 (setq package-archives
-      '(("melpa" . "http://melpa.milkbox.net/packages/")))
+      '(("melpa" . "http://melpa.milkbox.net/packages/")
+        ("elpa" . "http://elpa.gnu.org/packages/")))
 
 (package-initialize)
 
@@ -85,9 +86,9 @@
 ;; for emacs running in Debian VM in Mac OS
 (setq x-super-keysym 'meta)
 
-(defun shell-number1 nil (interactive) (shell "*shell1*"))
-(defun shell-number2 nil (interactive) (shell "*shell2*"))
-(defun shell-number3 nil (interactive) (shell "*shell3*"))
+(defun jc-shell-number1 nil (interactive) (shell "*shell1*"))
+(defun jc-shell-number2 nil (interactive) (shell "*shell2*"))
+(defun jc-shell-number3 nil (interactive) (shell "*shell3*"))
 
 ;; for explanation of cryptic format for specifying keys, see:
 ;; http://www.gnu.org/software/emacs/manual/html_node/emacs/Init-Rebinding.html
@@ -95,12 +96,12 @@
     (record 
      ;; two keybindings each: one works locally on Apple keyboard at
      ;; work, the other from home laptop
-     (list '([XF86MonBrightnessDown] shell-number1)
-           '([f1] shell-number1)
-           '([XF86MonBrightnessUp] shell-number2)
-           '([f2] shell-number2)
-           '([XF86LaunchA] shell-number3)
-           '([f3] shell-number3)))
+     (list '([XF86MonBrightnessDown] jc-shell-number1)
+           '([f1] jc-shell-number1)
+           '([XF86MonBrightnessUp] jc-shell-number2)
+           '([f2] jc-shell-number2)
+           '([XF86LaunchA] jc-shell-number3)
+           '([f3] jc-shell-number3)))
   ;; can't call (kbd) function because it expects a string constant
   (global-set-key (first record) (second record)))
 
@@ -196,7 +197,7 @@
           (lambda ()
             (set (make-local-variable 'sgml-basic-offset) 4)))
 
-(defun my-nxml-setup ()
+(defun jc-nxml-setup ()
   (setq tab-width 4
         indent-tabs-mode nil
 		nxml-child-indent 4
@@ -204,13 +205,13 @@
 		sgml-basic-offset 4
         nxml-slash-auto-complete-flag t))
 
-(add-hook 'nxml-mode-hook 'my-nxml-setup)
+(add-hook 'nxml-mode-hook 'jc-nxml-setup)
 
-(defun my-c++-indent-setup ()
+(defun jc-c++-indent-setup ()
   (setq c-basic-offset 4)
   (setq indent-tabs-mode nil))
 
-(add-hook 'c++-mode-hook 'my-c++-indent-setup)
+(add-hook 'c++-mode-hook 'jc-c++-indent-setup)
 
 (require 'nxml-mode)
 (require 'rng-nxml) ;; emacs23 needs this separate require to get rng-schema-locating-files variable
@@ -306,10 +307,10 @@
 (setq interpreter-mode-alist (cons '("python" . python-mode)
 								   interpreter-mode-alist))
 
-(defun my-python-indent-setup ()
+(defun jc-python-indent-setup ()
   (setq c-basic-offset 4)
   (setq indent-tabs-mode nil))
-(add-hook 'python-mode-hook 'my-python-indent-setup)
+(add-hook 'python-mode-hook 'jc-python-indent-setup)
 
 (setq python-fill-docstring-style 'django)
 
