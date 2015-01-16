@@ -269,6 +269,7 @@
           (lambda ()
               (setq show-trailing-whitespace t)))
 
+(add-to-list 'auto-mode-alist '("\\.rabl$" . ruby-mode))
 (add-hook 'ruby-mode-hook
           (lambda ()
               (setq show-trailing-whitespace t)))
@@ -600,14 +601,20 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
 
         ;; NOTE: .ttf font files should live in ~/.fonts/
         ;; other reasonable fonts:
-        ;; "Anonymous Pro-12", "Monospace-11"
+        ;; "Anonymous Pro-12", "Monospace-11", "Source Code Pro Extra Light-14"
+        ;; (princ (font-family-list))
+        ;; run this on Mac OS to disable antialiasing
+        ;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 100
         (condition-case nil
             (cond 
              ((x-server-is-xming)
               (set-frame-font "Inconsolata-15"))
              ((equal system-type 'darwin)
+              ;; I like this best for Retina display; it's not so good
+              ;; on an external monitor
+              (setq mac-allow-anti-aliasing nil)
               (set-face-italic-p 'italic nil)
-              (set-frame-font "Inconsolata-15"))
+              (set-frame-font "Monaco-13"))
              (t
               (set-frame-font "Inconsolata-13")))
           ;; ignore errors
