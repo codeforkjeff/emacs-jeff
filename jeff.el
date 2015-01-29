@@ -567,6 +567,7 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
 ;;    "autoflake - --remove-unused-variables"
 ;;    nil t))
 
+(require 'web-mode)
 ;; make these faces resemble html-mode b/c it's what I'm used to
 (set-face-attribute 'web-mode-html-tag-face nil :foreground "red")
 (set-face-attribute 'web-mode-html-attr-name-face nil :foreground "#729fcf")
