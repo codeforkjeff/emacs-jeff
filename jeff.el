@@ -402,6 +402,8 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
     (mark-whole-buffer)
     (call-interactively 'scheme-send-region)))
 
+(setq desktop-restore-frames nil)
+
 ;; save emacs buffers state
 (when (null (getenv "EMACS_DISABLE_DESKTOP_SAVE_MODE"))
   (setq desktop-path (list "~/.emacs.d"))
