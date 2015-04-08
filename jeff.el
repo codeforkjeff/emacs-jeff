@@ -574,6 +574,8 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
 (set-face-attribute 'web-mode-html-tag-face nil :foreground "red")
 (set-face-attribute 'web-mode-html-attr-name-face nil :foreground "#729fcf")
 
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+
 ;;;; Startup initialization
 
 (defun jc-after-make-frame (frame)
