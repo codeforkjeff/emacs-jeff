@@ -276,6 +276,12 @@
           (lambda ()
               (setq show-trailing-whitespace t)))
 
+(add-hook 'ruby-mode-hook 'flycheck-mode)
+
+(add-hook 'web-mode-hook
+          (lambda ()
+              (setq show-trailing-whitespace t)))
+
 ;; after list-buffers is called, switch to it
 (defadvice list-buffers (after jc-switch-to-other-win)
   (if (not (equalp (buffer-name (current-buffer))
