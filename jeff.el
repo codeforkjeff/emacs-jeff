@@ -61,6 +61,7 @@
     yaml-mode
     js2-mode
     web-mode
+    flycheck
     )
   "package dependencies required by jeff.el"
   :type '(repeat symbol)
