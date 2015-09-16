@@ -9,6 +9,8 @@
 ;; ;;(setq jc-skip-install-package-dependencies t)
 ;; (load-library "jeff")
 
+;; 25MB threshold for gc; this can speed up startup time a bit
+(set 'gc-cons-threshold 25000000)
 
 ;; when installing, some packages whine about not being able to find
 ;; cl even though it's part of stock emacs23; this might help?
@@ -62,6 +64,7 @@
     js2-mode
     web-mode
     flycheck
+    php-mode
     )
   "package dependencies required by jeff.el"
   :type '(repeat symbol)
