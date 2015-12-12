@@ -562,6 +562,22 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
   (global-hl-line-mode 0)
   (color-theme-emacs-21))
 
+(defun jc-list-fonts ()
+  "List available font family names in a buffer called *fonts*"
+  (interactive)
+  (switch-to-buffer "*fonts*")
+  (erase-buffer)
+  (insert
+   (apply 'concat
+          (mapcar
+           (lambda (item) (concat item "\n"))
+           (font-family-list))))
+  (sort-lines nil 1 (buffer-size (get-buffer "*fonts*")))
+  (shell-command-on-region
+   1 (buffer-size (get-buffer "*fonts*"))
+   "uniq"
+   "*fonts*" t))
+
 (require 'auto-complete)
 (global-auto-complete-mode t)
 
@@ -585,6 +601,10 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
 (set-face-attribute 'web-mode-html-attr-name-face nil :foreground "#729fcf")
 
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+
+(setq web-mode-engines-alist
+      '(("blade"  . "\\.blade\\."))
+)
 
 ;;;; Startup initialization
 
@@ -619,10 +639,17 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
         (load-library "color-theme-tango")
         (color-theme-tango)
 
-        ;; NOTE: .ttf font files should live in ~/.fonts/
-        ;; other reasonable fonts:
-        ;; "Anonymous Pro-12", "Monospace-11", "Source Code Pro Extra Light-14"
-        ;; (princ (font-family-list))
+        ;; NOTE: .ttf and .otf font files should live in ~/.fonts/
+        ;;
+        ;; Other reasonable fonts:
+        ;;
+        ;; (set-frame-font "Anonymous Pro-12")
+        ;; (set-frame-font "DejaVu Sans Mono-12")
+        ;; (set-frame-font "Hack-12")
+        ;; (set-frame-font "Inconsolata-13")
+        ;; (set-frame-font "Monospace-11")
+        ;; (set-frame-font "Source Code Pro-12")
+        ;;
         ;; run this on Mac OS to disable antialiasing
         ;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 100
         (condition-case nil
