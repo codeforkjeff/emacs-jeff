@@ -698,3 +698,10 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
 (setq enable-local-variables :all)
 
 (setq ruby-deep-indent-paren nil)
+
+(setenv "PAGER" "cat")
+
+(defun unescape-newlines (&optional b e)
+  "replaces '\n' in a region with actual newlines"
+  (interactive "r")
+  (replace-string "\\n" "\n" nil b e))
