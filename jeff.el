@@ -65,6 +65,8 @@
     web-mode
     flycheck
     php-mode
+    haskell-mode
+    scala-mode
     )
   "package dependencies required by jeff.el"
   :type '(repeat symbol)
@@ -231,8 +233,7 @@
                    'nxml-mode))
 
 (require 'tt-mode)
-(setq auto-mode-alist
-      (append '(("\\.tt$" . tt-mode))  auto-mode-alist ))
+(add-to-list 'auto-mode-alist '("\\.tt$" . tt-mode))
 
 (require 'yasnippet)
 ;; (yas/initialize)
@@ -316,7 +317,7 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward)
 
-(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (setq interpreter-mode-alist (cons '("python" . python-mode)
 								   interpreter-mode-alist))
 
@@ -433,7 +434,7 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
 
 ;; for editing rnc validation files
 (require 'rnc-mode)
-(setq auto-mode-alist (cons '("\\.rnc$" . rnc-mode) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.rnc$" . rnc-mode))
 
 ;; this doesn't seem actually useful
 ;;(require 'django-html-mode)
@@ -605,6 +606,9 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
 (setq web-mode-engines-alist
       '(("blade"  . "\\.blade\\."))
 )
+
+(add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
+(add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
 
 ;;;; Startup initialization
 
