@@ -86,10 +86,11 @@
 ;; Option key
 (setq mac-command-modifier 'meta)
 
-;; use a login shell on Mac OS to get full environment
+;; use a login shell to get full environment
+(require 'shell)
+(add-to-list 'explicit-bash-args "--login")
 (when (equal system-type 'darwin)
-  (setq explicit-shell-file-name "/bin/bash")
-  (setq explicit-bash-args '("--login")))
+  (setq explicit-shell-file-name "/bin/bash"))
 
 ;; for emacs running in Debian VM in Mac OS
 (setq x-super-keysym 'meta)
@@ -625,7 +626,7 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
         (let* ((display-width (x-display-pixel-width)))
           (cond 
            ;; HD desktop
-           ((= 1920 display-width)
+           ((member display-width '(1680 1920))
             (progn
               (set-frame-height frame 52)
               (set-frame-width frame 164)))
