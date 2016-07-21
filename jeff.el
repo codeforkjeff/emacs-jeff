@@ -67,6 +67,9 @@
     php-mode
     haskell-mode
     scala-mode
+    ruby-mode
+    rvm
+    robe
     )
   "package dependencies required by jeff.el"
   :type '(repeat symbol)
@@ -283,6 +286,10 @@
               (setq show-trailing-whitespace t)))
 
 (add-hook 'ruby-mode-hook 'flycheck-mode)
+
+(add-hook 'ruby-mode-hook 'robe-mode)
+
+(add-hook 'robe-mode-hook 'ac-robe-setup)
 
 (add-hook 'web-mode-hook
           (lambda ()
