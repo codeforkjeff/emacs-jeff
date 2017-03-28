@@ -70,6 +70,7 @@
     ruby-mode
     rvm
     robe
+    web
     )
   "package dependencies required by jeff.el"
   :type '(repeat symbol)
