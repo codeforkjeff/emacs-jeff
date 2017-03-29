@@ -663,12 +663,16 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
         ;; (set-frame-font "Monospace-11")
         ;; (set-frame-font "Source Code Pro-12")
         ;;
-        ;; run this on Mac OS to disable antialiasing
+        ;; run this on Mac OS to disable antialiasing; set the value low (e.g. 10) to ENABLE antialiasing
         ;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 100
         (condition-case nil
             (cond 
              ((x-server-is-xming)
               (set-frame-font "Inconsolata-15"))
+             ((and (equal system-type 'darwin) (= (x-display-pixel-width) 1680))
+              ;; external display at work
+              (set-frame-font "Source Code Pro-13")
+              )
              ((equal system-type 'darwin)
               ;; I like this best for Retina display; it's not so good
               ;; on an external monitor
