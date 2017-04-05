@@ -38,6 +38,11 @@
          nil)))
    packages))
 
+(defcustom jc-font "Source Code Pro 11"
+  "Font to use"
+  :type '(string)
+  :group 'jc)
+
 (defcustom jc-use-per-hostname-session-files t
   "Keep per-hostname files for modules that keep state (desktop, recentf, etc). Set to nil on machines whose hostnames change frequently."
   :type 'boolean
@@ -680,7 +685,7 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
               (set-face-italic-p 'italic nil)
               (set-frame-font "Monaco-13"))
              (t
-              (set-frame-font "Inconsolata-13")))
+              (set-frame-font jc-font)))
           ;; ignore errors
           (error nil)))
     ;; else
