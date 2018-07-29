@@ -26,16 +26,23 @@
 
 (package-initialize)
 
+(defun jc-package-exists-p (package-name)
+  "Returns non-nil if package exists in any archive"
+  (member package-name
+          (mapcar (lambda (elt) (first elt)) package-archive-contents)))
+
 (defun jc-install-package-dependencies (packages)
   "I adapted this from somewhere I can't remember"
   (package-refresh-contents)
   (mapcar
    (lambda (package)
-     (if (package-installed-p package)
-         package
-       (if (y-or-n-p (format "Package %s is missing. Install it? " package))
-           (package-install package)
-         nil)))
+     (if (jc-package-exists-p package)
+         (if (package-installed-p package)
+             package
+           (if (y-or-n-p (format "Package %s is missing. Install it? " package))
+               (package-install package)
+             nil))
+       (message "WARNING: package %s doesn't exist" (list package))))
    packages))
 
 (defcustom jc-font "Source Code Pro 11"
@@ -343,7 +350,9 @@
 (setq python-fill-docstring-style 'django)
 
 ;; subversion integration
-(require 'psvn)
+(condition-case nil
+    (require 'psvn)
+  (error nil))
 
 (require 'recentf)
 (when jc-use-per-hostname-session-files
@@ -727,3 +736,14 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
   "replaces '\n' in a region with actual newlines"
   (interactive "r")
   (replace-string "\\n" "\n" nil b e))
+
+;; decrement index and drop entries where level == 0
+(custom-set-variables
+ '(markdown-toc-user-toc-structure-manipulation-fn
+   (lambda (toc-structure)
+     (delq nil
+           (mapcar (lambda (record)
+                     (when (> (car record) 0)
+                       (cons (- (car record) 1) (cdr record))))
+                   toc-structure)))))
+
