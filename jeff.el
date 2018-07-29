@@ -683,6 +683,8 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
             (cond 
              ((x-server-is-xming)
               (set-frame-font "Inconsolata-15"))
+             ((equal system-type 'windows-nt)
+              (set-frame-font "Consolas-13"))
              ((and (equal system-type 'darwin) (= (x-display-pixel-width) 1680))
               ;; external display at work
               (set-frame-font "Source Code Pro-13")
