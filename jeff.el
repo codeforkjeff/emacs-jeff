@@ -416,6 +416,9 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
   (when (x-server-is-connected)
     (equal 0 (string-match "Colin Harrison" (x-server-vendor)))))
 
+(defun jc-is-windows-p ()
+  "returns t if running on windows"
+  (member system-type (list 'windows-nt 'cygwin)))
 
 ;; NOTE: js2 has some nice features, like syntax checking but it has
 ;; HORRIBLE indentation.
@@ -683,7 +686,7 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
             (cond 
              ((x-server-is-xming)
               (set-frame-font "Inconsolata-15"))
-             ((equal system-type 'windows-nt)
+             ((jc-is-windows-p)
               (set-frame-font "Consolas-13"))
              ((and (equal system-type 'darwin) (= (x-display-pixel-width) 1680))
               ;; external display at work
@@ -749,3 +752,7 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
                        (cons (- (car record) 1) (cdr record))))
                    toc-structure)))))
 
+(if (jc-is-windows-p)
+    (progn
+      (setq vc-git-diff-switches nil)
+      (setq vc-diff-switches "-w")))
