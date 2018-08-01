@@ -23,6 +23,12 @@
 (defun jc-is-windows-p ()
   (or (jc-is-cygwin-p) (jc-is-native-windows-p)))
 
+
+(defun jc-require-if-exists (library)
+  (condition-case nil
+      (require library)
+    (error "Could not load library %s" (symbol-name library))))
+
 ;; when installing, some packages whine about not being able to find
 ;; cl even though it's part of stock emacs23; this might help?
 (require 'cl)
@@ -377,9 +383,7 @@
 (setq python-fill-docstring-style 'django)
 
 ;; subversion integration
-(condition-case nil
-    (require 'psvn)
-  (error nil))
+(jc-require-if-exists 'psvn)
 
 (require 'recentf)
 (when jc-use-per-hostname-session-files
@@ -482,7 +486,7 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
   (add-hook 'auto-save-hook 'jc-autosave-desktop))
 
 ;; for editing rnc validation files
-(require 'rnc-mode)
+(jc-require-if-exists 'rnc-mode)
 (add-to-list 'auto-mode-alist '("\\.rnc$" . rnc-mode))
 
 ;; this doesn't seem actually useful
