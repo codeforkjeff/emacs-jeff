@@ -12,6 +12,17 @@
 ;; 25MB threshold for gc; this can speed up startup time a bit
 (set 'gc-cons-threshold 25000000)
 
+(defun jc-is-cygwin-p ()
+  "returns t if cygwin version of emacs"
+  (equal system-type 'cygwin))
+
+(defun jc-is-native-windows-p ()
+  "returns t if native windows emacs"
+  (equal system-type 'windows-nt))
+
+(defun jc-is-windows-p ()
+  (or (jc-is-cygwin-p) (jc-is-native-windows-p)))
+
 ;; when installing, some packages whine about not being able to find
 ;; cl even though it's part of stock emacs23; this might help?
 (require 'cl)
@@ -44,6 +55,11 @@
              nil))
        (message "WARNING: package %s doesn't exist" (list package))))
    packages))
+
+(defcustom jc-use-eshell nil
+  "use eshell for F-key shells"
+  :type 'boolean
+  :group 'jc)
 
 (defcustom jc-font "Source Code Pro 11"
   "Font to use"
@@ -111,9 +127,20 @@
 ;; for emacs running in Debian VM in Mac OS
 (setq x-super-keysym 'meta)
 
-(defun jc-shell-number1 nil (interactive) (shell "*shell1*"))
-(defun jc-shell-number2 nil (interactive) (shell "*shell2*"))
-(defun jc-shell-number3 nil (interactive) (shell "*shell3*"))
+(defun jc-shell (shell-buffer-name)
+  (let* ((shell-function (if jc-use-eshell 'jc-eshell 'shell)))
+    (apply shell-function (list shell-buffer-name))))
+       
+(defun jc-eshell (shell-buffer-name) (interactive)
+       (if (get-buffer shell-buffer-name)
+           (switch-to-buffer shell-buffer-name)
+         (let* ((eshell-buffer-name shell-buffer-name))
+           (eshell)
+           (rename-buffer shell-buffer-name))))
+
+(defun jc-shell-number1 nil (interactive) (jc-shell "*shell1*"))
+(defun jc-shell-number2 nil (interactive) (jc-shell "*shell2*"))
+(defun jc-shell-number3 nil (interactive) (jc-shell "*shell3*"))
 
 ;; for explanation of cryptic format for specifying keys, see:
 ;; http://www.gnu.org/software/emacs/manual/html_node/emacs/Init-Rebinding.html
@@ -415,10 +442,6 @@
 This function is useful because x-server-vendor gives warning if no X, so we test for X first."
   (when (x-server-is-connected)
     (equal 0 (string-match "Colin Harrison" (x-server-vendor)))))
-
-(defun jc-is-windows-p ()
-  "returns t if running on windows"
-  (member system-type (list 'windows-nt 'cygwin)))
 
 ;; NOTE: js2 has some nice features, like syntax checking but it has
 ;; HORRIBLE indentation.
@@ -755,4 +778,4 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
 (if (jc-is-windows-p)
     (progn
       (setq vc-git-diff-switches nil)
-      (setq vc-diff-switches "-w")))
+      (setq vc-diff-switches "-u -w")))
