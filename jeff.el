@@ -67,6 +67,11 @@
   :type 'boolean
   :group 'jc)
 
+(defcustom jc-use-windows-git-bash t
+  "use git-bash (Git for Windows) for shells"
+  :type 'boolean
+  :group 'jc)
+
 (defcustom jc-font "Source Code Pro 11"
   "Font to use"
   :type '(string)
@@ -714,7 +719,7 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
              ((x-server-is-xming)
               (set-frame-font "Inconsolata-15"))
              ((jc-is-windows-p)
-              (set-frame-font "Consolas-13"))
+              (set-frame-font "Consolas-11"))
              ((and (equal system-type 'darwin) (= (x-display-pixel-width) 1680))
               ;; external display at work
               (set-frame-font "Source Code Pro-13")
@@ -783,3 +788,12 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
     (progn
       (setq vc-git-diff-switches nil)
       (setq vc-diff-switches "-u -w")))
+
+(when (and (jc-is-native-windows-p) jc-use-windows-git-bash)
+  ;; don't need to set explicitly if git-bash install put git in the
+  ;; path; TODO: put a check for that here
+  ;;(setq vc-git-program "C:\\Program Files\\Git\\bin\\git.exe")
+  (setq explicit-shell-file-name "C:\\Program Files\\Git\\bin\\bash.exe")
+  (setq bash-completion-prog "C:\\Program Files\\Git\\bin\\bash.exe")
+  ;; -i isn't in bash-completion-args by default but without it, bash doesn't respond
+  (setq bash-completion-args '("--noediting" "-i")))
