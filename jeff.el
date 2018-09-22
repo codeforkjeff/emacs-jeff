@@ -110,6 +110,8 @@
     rvm
     robe
     web
+    ess
+    powershell
     )
   "package dependencies required by jeff.el"
   :type '(repeat symbol)
