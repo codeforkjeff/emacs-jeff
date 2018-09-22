@@ -786,10 +786,11 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
                        (cons (- (car record) 1) (cdr record))))
                    toc-structure)))))
 
-(if (jc-is-windows-p)
-    (progn
-      (setq vc-git-diff-switches nil)
-      (setq vc-diff-switches "-u -w")))
+;; can't remember what these were for, but windows git-bash works better without it
+;; (if (jc-is-windows-p)
+;;     (progn
+;;       (setq vc-git-diff-switches nil)
+;;       (setq vc-diff-switches "-u -w")))
 
 (when (and (jc-is-native-windows-p) jc-use-windows-git-bash)
   ;; don't need to set explicitly if git-bash install put git in the
