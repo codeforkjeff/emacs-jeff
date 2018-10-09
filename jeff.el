@@ -792,6 +792,8 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
 ;;       (setq vc-git-diff-switches nil)
 ;;       (setq vc-diff-switches "-u -w")))
 
+(setq vc-git-print-log-follow t)
+
 (when (and (jc-is-native-windows-p) jc-use-windows-git-bash)
   ;; don't need to set explicitly if git-bash install put git in the
   ;; path; TODO: put a check for that here
