@@ -802,3 +802,17 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
   (setq bash-completion-prog "C:\\Program Files\\Git\\bin\\bash.exe")
   ;; -i isn't in bash-completion-args by default but without it, bash doesn't respond
   (setq bash-completion-args '("--noediting" "-i")))
+
+;; register some hotkeys so Windows passes them through to Emacs.
+;; this is needed when AutoHotkey is used to map the Windows Key to
+;; Alt system-wide; Windows still intercepts certain Windows Key
+;; combos unless we make these register calls.
+(when (jc-is-native-windows-p)
+  (w32-register-hot-key [M-w])
+  (w32-register-hot-key [M-r])
+  (w32-register-hot-key [M-t])
+  (w32-register-hot-key [M-g])
+  (w32-register-hot-key [M-m])
+  ;; this one doesn't seem to work, not sure what it does in emacs anyway
+  ;;(w32-register-hot-key [M-b])
+  )
