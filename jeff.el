@@ -803,16 +803,19 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
   ;; -i isn't in bash-completion-args by default but without it, bash doesn't respond
   (setq bash-completion-args '("--noediting" "-i")))
 
-;; register some hotkeys so Windows passes them through to Emacs.
-;; this is needed when AutoHotkey is used to map the Windows Key to
-;; Alt system-wide; Windows still intercepts certain Windows Key
-;; combos unless we make these register calls.
+;; when AutoHotkey is used to map the Windows Key to Alt system-wide,
+;; Windows still intercepts certain Windows Key combos unless we make
+;; these register calls.
+;;
+;; The AutoHotkey .ahk file can simply have these 2 lines:
+;; LWin::LAlt
+;; LAlt::LWin
 (when (jc-is-native-windows-p)
-  (w32-register-hot-key [M-w])
+  (w32-register-hot-key [M-w]) ;; most important one: bound to kill-ring-save
   (w32-register-hot-key [M-r])
   (w32-register-hot-key [M-t])
   (w32-register-hot-key [M-g])
   (w32-register-hot-key [M-m])
-  ;; this one doesn't seem to work, not sure what it does in emacs anyway
+  ;; this one doesn't seem to work, not sure if it's bound in emacs anyway
   ;;(w32-register-hot-key [M-b])
   )
