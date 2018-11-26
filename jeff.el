@@ -32,7 +32,8 @@
 ;; do this very early on
 (let* ((git-bash-bin-dir "C:\\Program Files\\Git\\usr\\bin"))
   (when (and (jc-is-windows-p) (file-exists-p git-bash-bin-dir))
-    (setenv "PATH" (concat "C:\\Program Files\\Git\\usr\\bin;" (getenv "PATH")))))
+    (setenv "PATH" (concat "C:\\Program Files\\Git\\usr\\bin;" (getenv "PATH")))
+    (setq epg-gpg-program "C:/Program Files/Git/usr/bin/gpg.exe")))
 
 ;; when installing, some packages whine about not being able to find
 ;; cl even though it's part of stock emacs23; this might help?
