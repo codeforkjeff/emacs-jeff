@@ -1,6 +1,6 @@
 
 ;; jeff's universal emacs file
-;; this should work with both emacs 23 and 24.
+;; this works with emacs 25 and 26. probably not any earlier.
 ;;
 ;; ~/.emacs file should look like:
 
