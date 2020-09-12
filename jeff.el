@@ -46,6 +46,17 @@
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 
+;; emacs 25 on ubuntu 18.04 has outdated URL for 'gnu' so override it
+(if
+    (equal emacs-major-version 25)
+    (setq package-archives
+          (mapcar
+           (lambda (item)
+             (if (equal (car item) "gnu")
+                 '("gnu" . "https://elpa.gnu.org/packages/")
+               item))
+           package-archives)))
+
 (package-initialize)
 
 (defun jc-package-exists-p (package-name)
@@ -55,7 +66,23 @@
 
 (defun jc-install-package-dependencies (packages)
   "I adapted this from somewhere I can't remember"
-  (package-refresh-contents)
+
+  ;; if signature checking fails, disable keyring and try again
+  ;; hacky error checking, b/c I couldn't get condition-case to catch the error from package-refresh-contents
+  (progn
+      (package-refresh-contents)
+      (let*
+          ((error-buffer (get-buffer "*Error*"))
+	   (error-string (when error-buffer (with-current-buffer error-buffer (buffer-string)))))
+        (if (string-match-p "Failed to verify signature archive-contents.sig" (or error-string ""))
+            (progn
+              (message "trying package-refresh-contents again with signature checking turned off")
+              (setq package-check-signature nil)
+              (package-refresh-contents)
+              (package-install 'gnu-elpa-keyring-update)
+              (gnu-elpa-keyring-update)
+              (setq package-check-signature 'allow-unsigned)))))
+
   (mapcar
    (lambda (package)
      (if (jc-package-exists-p package)
