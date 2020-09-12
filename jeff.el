@@ -43,9 +43,8 @@
     (add-to-list 'load-path (concat (file-name-directory load-file-name) "emacs23")))
 ;; melpa is supposedly the latest and greatest; flycheck needs let-alist from elpa
 (require 'package)
-(setq package-archives
-      '(("melpa" . "http://melpa.milkbox.net/packages/")
-        ("elpa" . "http://elpa.gnu.org/packages/")))
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
 
 (package-initialize)
 
@@ -62,9 +61,10 @@
      (if (jc-package-exists-p package)
          (if (package-installed-p package)
              package
-           (if (y-or-n-p (format "Package %s is missing. Install it? " package))
+;           (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                (package-install package)
-             nil))
+					;             nil))
+	       )
        (message "WARNING: package %s doesn't exist" (list package))))
    packages))
 
@@ -99,7 +99,7 @@
     rnc-mode
     expand-region
     auto-complete
-    color-theme
+    color-theme-modern
     tt-mode
     psvn
     markdown-mode
@@ -252,6 +252,9 @@
 (setq recentf-max-saved-items 500)
 
 (setq grep-program "egrep")
+
+;; trust all themes (gulp)
+(setq custom-safe-themes t)
 
 ;;(defalias 'perl-mode 'cperl-mode)
 (custom-set-variables
@@ -682,9 +685,6 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
 (defun jc-after-make-frame (frame)
   ;; function to run as part of after-make-frame-functions hook
 
-  (require 'color-theme)
-  (color-theme-initialize)
-
   (if (x-server-is-connected)
       (progn
         (select-frame frame)
@@ -707,8 +707,12 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
               (set-frame-height frame 45)
               (set-frame-width frame 100)))))
 
-        (load-library "color-theme-tango")
-        (color-theme-tango)
+        ;; pre-builtin theme support in emacs
+        ;;(load-library "color-theme-tango")
+        ;;(color-theme-tango)
+
+        ;; this only looks good in X windows
+        (load-theme 'deeper-blue)
 
         ;; NOTE: .ttf and .otf font files should live in ~/.fonts/
         ;;
@@ -749,8 +753,7 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
     ;; getenv on TERM because emacs always returns 'dumb'. ugh.
 
     (require 'ansi-color)
-    (load-library "color-theme-tango")
-    (color-theme-tango))
+    (load-theme 'tty-dark))
 
   ;; for this to work, do NOT call ansi-color-for-comint-mode-on directly in extras.el.
   ;; not sure why that messes up colors.
