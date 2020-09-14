@@ -73,7 +73,7 @@
       (package-refresh-contents)
       (let*
           ((error-buffer (get-buffer "*Error*"))
-	   (error-string (when error-buffer (with-current-buffer error-buffer (buffer-string)))))
+           (error-string (when error-buffer (with-current-buffer error-buffer (buffer-string)))))
         (if (string-match-p "Failed to verify signature archive-contents.sig" (or error-string ""))
             (progn
               (message "trying package-refresh-contents again with signature checking turned off")
@@ -740,6 +740,9 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
 
         ;; this only looks good in X windows
         (load-theme 'deeper-blue)
+        ;; set window fringe to have same color as background for 'default' face
+        ;; many themes set it to some other color, which is annoying
+        (set-face-background 'fringe (face-attribute 'default :background))
 
         ;; NOTE: .ttf and .otf font files should live in ~/.fonts/
         ;;
@@ -856,3 +859,8 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
   ;; this one doesn't seem to work, not sure if it's bound in emacs anyway
   ;;(w32-register-hot-key [M-b])
   )
+
+;; prevent annoying mods to ~/.emacs
+(setq custom-file "~/.emacs.d/custom.el")
+(when (file-exists-p custom-file)
+       (load custom-file))
