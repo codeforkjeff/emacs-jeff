@@ -775,8 +775,7 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
               (set-frame-font "Monaco-13"))
              (t
               (set-frame-font jc-font)))
-          ;; ignore errors
-          (error nil)))
+          (error (message "ERROR: failed to set frame font, probably because font isn't installed. Ignoring."))))
     ;; else
 
     ;; TODO: if TERM isn't 256 color, show warning.but we can't use
