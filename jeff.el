@@ -189,6 +189,24 @@
 (defun jc-shell-number2 nil (interactive) (jc-shell "*shell2*"))
 (defun jc-shell-number3 nil (interactive) (jc-shell "*shell3*"))
 
+;; adapted from https://archive.casouri.cc/note/2021/clean-exit/index.html
+(defun jc-clean-exit ()
+  "Exit Emacs cleanly.
+If there are unsaved buffer, pop up a list for them to be saved
+before existing. Replaces ‘save-buffers-kill-terminal’."
+  (interactive)
+  (if (frame-parameter nil 'client)
+      (server-save-buffers-kill-terminal arg)
+    (if-let ((buf-list (seq-filter (lambda (buf)
+                                     (and (buffer-modified-p buf)
+                                          (not (string-match "^\*" (string-trim-left (buffer-name buf)))))
+                                     )
+                                   (buffer-list))))
+        (progn
+          (pop-to-buffer (list-buffers-noselect t buf-list))
+          (message "s to save, C-k to kill, x to execute"))
+      (save-buffers-kill-emacs))))
+
 ;; for explanation of cryptic format for specifying keys, see:
 ;; http://www.gnu.org/software/emacs/manual/html_node/emacs/Init-Rebinding.html
 (dolist
@@ -213,6 +231,9 @@
 
 ;; Meta-Up deletes indentation on current line, wrapping it to line above
 (global-set-key (kbd "M-<up>") 'delete-indentation)
+
+;; show modified buffers (including non-file buffers) before exiting
+(global-set-key (kbd "C-x C-c") 'jc-clean-exit)
 
 
 ;;;; Tweak built-in emacs settings
