@@ -568,11 +568,26 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
+(defun jc-which-python ()
+  "returns location of the python executable in PATH"
+  (let*
+      ((executables '("python" "python3")))
+    (seq-reduce
+     (lambda (acc exec)
+       (or acc
+           (let*
+               ((raw-result
+                 (string-trim (shell-command-to-string (concat "bash -c 'which " exec "'")))))
+             (if (> (length raw-result) 0) raw-result nil))))
+     executables nil)))
+
+(jc-which-python)
+
 (defun sql-parse (&optional b e) 
   (interactive "r")
   (shell-command-on-region
    b e
-   "python -c \"import os; os.environ['PYTHONIOENCODING'] = 'UTF-8'; import sqlparse, sys; print unicode(sqlparse.format(sys.stdin.read(), reindent=True, keyword_case='upper'))\""
+   (concat (jc-which-python) " -c \"import os; os.environ['PYTHONIOENCODING'] = 'UTF-8'; import sqlparse, sys; print unicode(sqlparse.format(sys.stdin.read(), reindent=True, keyword_case='upper'))\"")
    nil t))
 (defalias 'sql-format 'sql-parse)
 
@@ -600,7 +615,7 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
 
 (defun json-prettify (&optional b e) 
   (interactive "r")
-  (shell-command-on-region b e "python -m json.tool" nil t ))
+  (shell-command-on-region b e (concat (jc-which-python) " -m json.tool") nil t ))
 
 (defun xml-prettify (&optional b e) 
   (interactive "r")
