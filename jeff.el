@@ -587,7 +587,7 @@ This function is useful because x-server-vendor gives warning if no X, so we tes
   (interactive "r")
   (shell-command-on-region
    b e
-   (concat (jc-which-python) " -c \"import os; os.environ['PYTHONIOENCODING'] = 'UTF-8'; import sqlparse, sys; print unicode(sqlparse.format(sys.stdin.read(), reindent=True, keyword_case='upper'))\"")
+   (concat (jc-which-python) " -c \"import os; os.environ['PYTHONIOENCODING'] = 'UTF-8'; import sqlparse, sys; print(sqlparse.format(sys.stdin.read(), reindent=True, keyword_case='upper'))\"")
    nil t))
 (defalias 'sql-format 'sql-parse)
 
