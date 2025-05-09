@@ -408,7 +408,7 @@ before existing. Replaces ‘save-buffers-kill-terminal’."
 
 ;; after list-buffers is called, switch to it
 (defadvice list-buffers (after jc-switch-to-other-win)
-  (if (not (equalp (buffer-name (current-buffer))
+  (if (not (cl-equalp (buffer-name (current-buffer))
                    "*Buffer List*"))
       (other-window 1))
   (goto-char (+ 4 (point))))
@@ -426,7 +426,7 @@ before existing. Replaces ‘save-buffers-kill-terminal’."
       (setq jc-buffer-menu (current-buffer))
       ;; for debugging:
       ;;(message "sorting!")
-      (Buffer-menu-sort 6))))
+      (tabulated-list-sort 6))))
 (ad-activate 'list-buffers)
 
 ;; for viewing svn history
